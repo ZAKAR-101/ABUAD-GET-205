@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ABUAD — GET205: Fluid Mechanics (60 Objective + Essay Portal)</title>
+  <script src="https://js.paystack.co/v1/inline.js" defer></script>
+  <style>
+    :root {
+      --bg: #0b1120;
+      --surface: #1e293b;
+      --surface-light: #334155;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --abuad-gold: #eab308;
+      --abuad-green: #16a34a;
+      --accent: #38bdf8;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --border: #475569;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 16px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(11, 17, 32, 0.75);
+      border: 1px solid var(--abuad-gold);
+      color: var(--abuad-gold);
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .brand-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--abuad-gold);
+    }
+
+    .uni-banner {
+      background: linear-gradient(135deg, #064e3b 0%, #0f172a 100%);
+      border: 1px solid var(--abuad-gold);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .uni-banner h1 {
+      font-size: 1.5rem;
+      color: var(--abuad-gold);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .uni-banner h2 {
+      font-size: 1.02rem;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .uni-banner p {
+      font-size: 0.88rem;
+      color: #cbd5e1;
+    }
+
+    .login-card, .card, .paywall-card, .result-dashboard, .section-divider {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px;
+      margin-bottom: 20px;
+    }
+
+    .login-card {
+      max-width: 480px;
+      margin: 28px auto;
+      padding: 30px 24px;
+    }
+
+    .login-card h3 {
+      color: var(--abuad-gold);
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .login-card p.sub {
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .form-group input, select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    select {
+      width: auto;
+      min-width: 230px;
+    }
+
+    .error-msg {
+      color: var(--danger);
+      font-size: 0.85rem;
+      margin-bottom: 10px;
+      display: none;
+      text-align: center;
+    }
+
+    button {
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 700;
+      font-size: 0.94rem;
+      cursor: pointer;
+      transition: opacity 0.2s, background 0.2s;
+      touch-action: manipulation;
+    }
+
+    button:hover:not(:disabled) {
+      opacity: 0.92;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-green {
+      background: var(--abuad-green);
+      color: #fff;
+    }
+
+    .btn-gold {
+      background: var(--abuad-gold);
+      color: #0b1120;
+    }
+
+    .btn-blue {
+      background: var(--accent);
+      color: #0b1120;
+    }
+
+    .btn-secondary {
+      background: var(--surface-light);
+      color: var(--text);
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    #examPortal {
+      display: none;
+    }
+
+    .top-bar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .timer-box {
+      background: var(--bg);
+      border: 1px solid var(--abuad-gold);
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .timer-display {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--abuad-gold);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .controls {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 20px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-divider {
+      border-left: 5px solid var(--abuad-gold);
+      background: linear-gradient(90deg, rgba(234, 179, 8, 0.12), var(--surface));
+    }
+
+    .section-divider h3 {
+      color: var(--abuad-gold);
+      font-size: 1.15rem;
+      margin-bottom: 4px;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .badge-marks {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--warning);
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .option-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+
+    .option-btn.selected {
+      border-color: var(--accent);
+      background: rgba(56, 189, 248, 0.14);
+    }
+
+    .option-btn.correct {
+      border-color: var(--success);
+      background: rgba(34, 197, 94, 0.16);
+    }
+
+    .option-btn.wrong {
+      border-color: var(--danger);
+      background: rgba(239, 68, 68, 0.16);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      color: var(--text);
+      font-size: 0.95rem;
+      resize: vertical;
+      margin-top: 8px;
+    }
+
+    .paywall-card {
+      border: 2px solid var(--abuad-gold);
+      background: linear-gradient(180deg, rgba(234, 179, 8, 0.08) 0%, var(--surface) 100%);
+      display: none;
+    }
+
+    .paywall-card h3 {
+      color: var(--abuad-gold);
+      margin-bottom: 8px;
+    }
+
+    .feedback-box, .marking-scheme {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .feedback-box {
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid var(--accent);
+      display: none;
+    }
+
+    .marking-scheme {
+      background: rgba(34, 197, 94, 0.08);
+      border: 1px solid var(--success);
+      display: none;
+    }
+
+    .marking-scheme h4 {
+      color: var(--success);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+    }
+
+    .marking-scheme ul {
+      padding-left: 18px;
+    }
+
+    .result-dashboard {
+      display: none;
+      border: 2px solid var(--abuad-gold);
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .portal-footer {
+      margin-top: 28px;
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="uni-banner">
+      <div class="brand-mark"><span class="brand-dot"></span>Eden Series</div>
+      <h1>Afe Babalola University (ABUAD)</h1>
+      <h2>College of Engineering — GET205: Fundamentals of Fluid Mechanics</h2>
+      <p>60 Objective Questions + Essay Questions • Topics: Fluids & Flow • Viscosity • Stability • Bernoulli's Theory • Orifice & Venturi Meters • <strong>Fluid Power</strong></p>
+    </div>
+
+    <!-- Login Gate -->
+    <div class="login-card" id="loginGate">
+      <h3>Student Examination Login</h3>
+      <p class="sub">Sign in with your email address to attempt 10 free objective questions first.</p>
+      <div class="form-group">
+        <label for="studentName">Full Name</label>
+        <input type="text" id="studentName" placeholder="e.g., Adebayo Tunde" autocomplete="name" />
+      </div>
+      <div class="form-group">
+        <label for="studentEmail">Email Address *</label>
+        <input type="email" id="studentEmail" placeholder="e.g., student@abuad.edu.ng" autocomplete="email" required />
+      </div>
+      <div class="error-msg" id="loginError">Please enter your full name and a valid email address.</div>
+      <button type="button" class="btn-green btn-full" id="startExamBtn">Start Examination</button>
+    </div>
+
+    <!-- Exam Portal -->
+    <div id="examPortal">
+      <div class="top-bar">
+        <div>
+          <p><strong>Candidate:</strong> <span id="dispName"></span> • <span id="dispEmail"></span></p>
+          <p class="muted" id="unlockStatus">Free Quota: 10 Objective Questions | Questions 11–60 & Essays: Locked (₦100 per practice session)</p>
+        </div>
+        <div class="timer-box">
+          <div class="muted" style="font-size: 0.72rem; text-transform: uppercase;">Time Remaining</div>
+          <div class="timer-display" id="timer">02:00:00</div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div>
+          <label for="topicFilter"><strong>Topic Filter:</strong></label>
+          <select id="topicFilter">
+            <option value="ALL">All Topics (60 Objectives + Essays)</option>
+            <option value="Fluid Properties & Flow">Fluid Properties & Flow</option>
+            <option value="Viscosity">Viscosity</option>
+            <option value="Stability">Concept of Stability</option>
+            <option value="Fluid Dynamics & Bernoulli">Fluid Dynamics & Bernoulli</option>
+            <option value="Flow Meters">Orifice & Venturi Meters</option>
+            <option value="Fluid Power">Fluid Power</option>
+          </select>
+        </div>
+        <div class="muted" id="cbtCounter">Objective Answered: 0 / 10 Free (Bank: 60)</div>
+      </div>
+
+      <!-- Grading Summary (Visible Only After Final Submission) -->
+      <div class="result-dashboard" id="resultDashboard">
+        <h3 style="color: var(--abuad-gold); margin-bottom: 6px;">GET205 Examination Score & Grade Summary</h3>
+        <p id="totalSummaryText" style="font-size: 1.05rem; font-weight: 700; color: var(--success);"></p>
+        <p class="muted" id="summaryRemarkText" style="margin-top: 4px;"></p>
+      </div>
+
+      <!-- Objective Questions 1–60 Container -->
+      <div class="section-divider">
+        <h3>SECTION A: OBJECTIVE QUESTIONS (60 QUESTIONS)</h3>
+        <p class="muted">Answers and explanations stay hidden until you click Submit. First 10 answered objective questions are free; pay ₦100 to unlock the rest and the Essay section.</p>
+      </div>
+      <div id="objectiveContainer"></div>
+
+      <!-- ₦100 Paystack Paywall Card -->
+      <div class="paywall-card" id="paywallCard">
+        <h3>Unlock Remaining Objective Questions (Up to 60) & Essay Questions — ₦100</h3>
+        <p style="margin-bottom: 12px; font-size: 0.94rem;">
+          You have completed your <strong>10 free objective questions</strong>. Pay a <strong>₦100</strong> practice token via Paystack to unlock the rest of the <strong>60 objective questions</strong> and all <strong>Essay Questions</strong> across every topic, including <strong>Fluid Power</strong>.
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+          <button type="button" class="btn-gold" id="paystackBtn">Pay ₦100 via Paystack</button>
+        </div>
+      </div>
+
+      <!-- Essay Questions Placed After the 60 Objective Questions -->
+      <div class="section-divider" id="essayHeaderDivider" style="display: none;">
+        <h3>SECTION B: ESSAY QUESTIONS (AFTER 60 OBJECTIVE QUESTIONS)</h3>
+        <p class="muted">Answer all essay questions below. Marking guides and automated rubric scores remain hidden until you submit.</p>
+      </div>
+      <div id="essayContainer"></div>
+
+      <div id="finalSubmitRow" style="display: none; justify-content: flex-end; gap: 10px; margin-bottom: 36px;">
+        <button type="button" class="btn-green" id="finalSubmitBtn">Submit Examination & Grade Essays</button>
+      </div>
+    </div>
+
+    <footer class="portal-footer">
+      <div class="brand-mark"><span class="brand-dot"></span>Eden Series</div>
+      <p>Powered by <strong>Eden Series</strong> • ABUAD GET205 Assessment Portal</p>
+    </footer>
+  </div>
+
+  <script>
+    const PAYSTACK_CONFIG = {
+      publicKey: "pk_live_65117fee98c09490191fe7acd3b9b335dce6c52c",
+      amountNaira: 100
+    };
+
+    const FREE_CBT_LIMIT = 10;
+
+    const coreObjectiveQuestions = [
+      { topic: "Fluid Properties & Flow", q: "Which statement best defines a fluid under shear stress?", opts: ["It resists shear with a fixed permanent shape", "It deforms continuously as long as shear stress is applied", "It has zero density", "It cannot flow through pipes"], ans: 1, exp: "Fluids deform continuously under shear stress, whereas solids reach static equilibrium." },
+      { topic: "Fluid Properties & Flow", q: "Flow where fluid velocity at a fixed point does not change with time is called:", opts: ["Uniform flow", "Steady flow", "Turbulent flow", "Compressible flow"], ans: 1, exp: "Steady flow means flow properties at a fixed point do not vary with time." },
+      { topic: "Fluid Properties & Flow", q: "Specific gravity (SG) of a liquid is defined as the ratio of its density to:", opts: ["Air density at STP", "Pure water density (typically at 4°C)", "Mercury density", "Kinematic viscosity"], ans: 1, exp: "SG = ρ_fluid / ρ_water(4°C) and is dimensionless." },
+      { topic: "Fluid Properties & Flow", q: "Uniform flow occurs when velocity along a flow path at a given instant:", opts: ["Changes rapidly with time", "Remains constant with respect to position along the path", "Is always zero", "Exceeds the speed of sound"], ans: 1, exp: "Uniform flow means spatial velocity gradient along the flow path is zero at that instant." },
+      { topic: "Fluid Properties & Flow", q: "Bulk modulus of elasticity (K) measures a fluid's resistance to:", opts: ["Shear deformation", "Volumetric compression under pressure", "Surface tension", "Capillary rise"], ans: 1, exp: "K = -ΔP / (ΔV/V); a higher bulk modulus means lower compressibility." },
+      { topic: "Fluid Properties & Flow", q: "Surface tension (σ) acts along a liquid interface primarily due to:", opts: ["Imbalanced cohesive attraction among surface molecules", "Gravitational pull on gas molecules alone", "Zero pressure gradient", "High kinematic viscosity"], ans: 0, exp: "Surface molecules experience net inward cohesive pull from interior molecules." },
+      { topic: "Fluid Properties & Flow", q: "Laminar flow is characterized by:", opts: ["Smooth, orderly parallel fluid layers without macroscopic eddies", "Chaotic swirling vortices and vigorous mixing", "Zero velocity near pipe walls", "Supersonic density jumps"], ans: 0, exp: "Laminar flow moves in orderly streamlines/laminae at low Reynolds numbers." },
+      { topic: "Fluid Properties & Flow", q: "Specific weight (γ) in SI units is expressed in:", opts: ["kg/m³", "N/m³", "Pa·s", "m²/s"], ans: 1, exp: "Specific weight γ = ρg has SI units of Newtons per cubic meter (N/m³)." },
+      { topic: "Fluid Properties & Flow", q: "Compressible flow is most important when:", opts: ["Density changes significantly (e.g., high-speed gas flow)", "Water flows slowly in a garden hose", "Temperature is held constant in an incompressible liquid", "Elevation head is zero"], ans: 0, exp: "Density variations matter in gases under large pressure/temperature changes or high Mach numbers." },
+      { topic: "Fluid Properties & Flow", q: "Which flow type is unsteady?", opts: ["Constant discharge in a steady pump loop", "Flow in a pipe while a control valve is closing", "Uniform channel flow at steady state", "Constant-rate gravity drain after reaching steady state"], ans: 1, exp: "Opening or closing a valve creates time-varying velocity and pressure (unsteady flow)." },
+
+      { topic: "Viscosity", q: "Newton's Law of Viscosity relates shear stress (τ) to:", opts: ["Pressure squared", "Velocity gradient (du/dy)", "Elevation head (z)", "Bulk modulus (K)"], ans: 1, exp: "τ = μ (du/dy): shear stress is proportional to the velocity gradient." },
+      { topic: "Viscosity", q: "As temperature increases, the dynamic viscosity of most liquids:", opts: ["Increases sharply", "Decreases as intermolecular cohesion weakens", "Remains strictly constant", "Becomes negative"], ans: 1, exp: "Heating liquids weakens cohesive intermolecular forces, reducing viscosity." },
+      { topic: "Viscosity", q: "Kinematic viscosity (ν) equals:", opts: ["μ × ρ", "μ / ρ", "ρ / μ", "P / (ρg)"], ans: 1, exp: "Kinematic viscosity is dynamic viscosity divided by fluid density (ν = μ / ρ)." },
+      { topic: "Viscosity", q: "As temperature rises, the viscosity of a gas generally:", opts: ["Increases due to greater molecular momentum transfer/collisions", "Drops to zero", "Becomes independent of temperature", "Equals water's viscosity"], ans: 0, exp: "In gases, higher temperature increases molecular motion and collision momentum transfer." },
+      { topic: "Viscosity", q: "The SI unit of dynamic viscosity (μ) is:", opts: ["Pa·s (or N·s/m²)", "m²/s", "N/m", "J/kg"], ans: 0, exp: "Dynamic viscosity is measured in Pascal-seconds (Pa·s) or N·s/m²." },
+      { topic: "Viscosity", q: "The SI unit of kinematic viscosity (ν) is:", opts: ["m²/s", "Pa·s", "N/m³", "kg/m³"], ans: 0, exp: "Kinematic viscosity ν = μ/ρ has units of m²/s." },
+      { topic: "Viscosity", q: "A Newtonian fluid is one for which:", opts: ["Shear stress is directly proportional to velocity gradient (linear μ)", "Viscosity is always infinite", "Shear stress is zero at all rates", "Density is less than air"], ans: 0, exp: "Newtonian fluids follow a linear relationship between τ and du/dy." },
+      { topic: "Viscosity", q: "Shear-thinning (pseudoplastic) behavior means apparent viscosity:", opts: ["Decreases as shear rate increases", "Increases as shear rate increases", "Stays equal to kinematic viscosity", "Requires zero pressure"], ans: 0, exp: "Shear-thinning fluids (like paint or ketchup) thin out under higher shear rates." },
+      { topic: "Viscosity", q: "The no-slip condition at a stationary solid boundary states that the fluid immediately adjacent to the wall:", opts: ["Moves at twice free-stream speed", "Has zero velocity relative to the wall", "Has zero viscosity", "Experiences zero shear stress"], ans: 1, exp: "Viscous fluids adhere to solid boundaries, matching the wall's velocity (zero for a stationary wall)." },
+      { topic: "Viscosity", q: "Which fluid is typically modeled as Newtonian under normal conditions?", opts: ["Water and air", "Cornstarch-water paste under impact", "Heavy drilling mud with yield stress", "Thick polymer melt at high shear"], ans: 0, exp: "Water, air, and light mineral oils are classic Newtonian fluids." },
+
+      { topic: "Stability", q: "A floating vessel is initially stable in roll when its metacenter (M) lies:", opts: ["Below the center of gravity (CG)", "Above the center of gravity (CG)", "At the bottom of the keel", "Outside the fluid"], ans: 1, exp: "When M is above CG (GM > 0), tilting creates a righting couple that restores equilibrium." },
+      { topic: "Stability", q: "Where does the buoyant force act on a body in a fluid?", opts: ["At the center of gravity", "At the centroid of the displaced fluid volume (CB)", "At the lowest submerged point", "At the waterline"], ans: 1, exp: "Buoyancy acts upward through the Center of Buoyancy (CB), the centroid of displaced fluid." },
+      { topic: "Stability", q: "A completely submerged body is in stable equilibrium when:", opts: ["Center of Buoyancy (CB) is above Center of Gravity (CG)", "Center of Buoyancy (CB) is below Center of Gravity (CG)", "Buoyant force is zero", "Weight exceeds volume"], ans: 0, exp: "For a fully submerged body, placing CB above CG creates a restoring moment after tilt." },
+      { topic: "Stability", q: "Metacentric height (GM) is defined as the distance between:", opts: ["Center of Gravity (CG) and Metacenter (M)", "Surface and seabed", "Inlet and outlet", "Pressure head and velocity head"], ans: 0, exp: "GM measures the vertical distance between CG and M, governing initial floating stability." },
+      { topic: "Stability", q: "If a floating body has M below CG (negative metacentric height), a small tilt produces:", opts: ["A restoring couple", "An overturning couple that increases tilt", "Neutral stability with zero moment", "Infinite buoyancy"], ans: 1, exp: "When M is below CG, gravity and buoyancy form an overturning moment." },
+      { topic: "Stability", q: "Neutral equilibrium occurs when a small displacement causes:", opts: ["No restoring or overturning moment (body stays in new position)", "Rapid sinking", "Immediate capsizing", "Sudden rise in temperature"], ans: 0, exp: "In neutral stability, the displaced body experiences zero net righting or overturning torque." },
+      { topic: "Stability", q: "Archimedes' principle states that the upward buoyant force equals:", opts: ["Weight of the fluid displaced by the body", "Atmospheric pressure times area", "Dynamic viscosity times velocity", "Mass of the body times speed squared"], ans: 0, exp: "F_b = ρ_fluid · g · V_displaced." },
+      { topic: "Stability", q: "Why can a floating ship remain stable even when its Center of Gravity is above its Center of Buoyancy?", opts: ["As it tilts, CB shifts outward so the new buoyant line intersects the centerline above CG (M)", "Gravity disappears when floating", "Water has no density", "Buoyancy acts downward"], ans: 0, exp: "The shifting shape of the submerged volume moves CB laterally, locating metacenter M above CG." },
+      { topic: "Stability", q: "A body floats in equilibrium when:", opts: ["Buoyant force equals total weight of the body", "Density of body is ten times water density", "Pressure at top is zero", "Viscosity is zero"], ans: 0, exp: "Vertical equilibrium requires upward buoyancy F_b to balance downward weight W." },
+      { topic: "Stability", q: "Lowering heavy cargo toward the bottom of a ship helps stability by:", opts: ["Lowering CG and increasing metacentric height (GM)", "Raising CG above M", "Eliminating buoyancy", "Increasing pipe friction"], ans: 0, exp: "Lowering CG increases the distance GM between CG and M (assuming M is above CG)." },
+
+      { topic: "Fluid Dynamics & Bernoulli", q: "In a horizontal pipe (constant elevation), if flow speeds up through a narrower section, static pressure:", opts: ["Increases", "Decreases", "Stays unchanged", "Becomes equal to elevation head"], ans: 1, exp: "By continuity and Bernoulli's equation, higher kinetic energy corresponds to lower static pressure head." },
+      { topic: "Fluid Dynamics & Bernoulli", q: "Which assumption is NOT required for ideal Bernoulli's equation along a streamline?", opts: ["Steady flow", "Incompressible fluid", "Zero viscosity (frictionless)", "Supersonic shock waves"], ans: 3, exp: "Bernoulli's equation assumes steady, incompressible, frictionless flow along a streamline." },
+      { topic: "Fluid Dynamics & Bernoulli", q: "In the Bernoulli head equation (P/ρg) + (V²/2g) + z = constant, V²/2g represents:", opts: ["Velocity (kinetic) head", "Pressure head", "Elevation head", "Head loss"], ans: 0, exp: "V²/2g has units of length (meters) and represents kinetic energy per unit weight." },
+      { topic: "Fluid Dynamics & Bernoulli", q: "The continuity equation for steady incompressible flow in a pipe is:", opts: ["A₁V₁ = A₂V₂", "P₁ + V₁ = P₂ + V₂", "ρ₁/A₁ = ρ₂/A₂", "Q = μ · ΔP"], ans: 0, exp: "Volumetric flow rate Q = AV remains constant along a single steady incompressible stream." },
+      { topic: "Fluid Dynamics & Bernoulli", q: "In the Bernoulli equation, z represents:", opts: ["Elevation (datum/potential) head", "Dynamic viscosity", "Shear stress", "Discharge coefficient"], ans: 0, exp: "z is elevation above a chosen reference datum." },
+      { topic: "Fluid Dynamics & Bernoulli", q: "Stagnation pressure (P₀) in a steady incompressible flow equals:", opts: ["Static pressure + Dynamic pressure (P + ½ρV²)", "Static pressure − Dynamic pressure", "Elevation head only", "Zero at all points"], ans: 0, exp: "Bringing fluid smoothly to rest converts dynamic pressure ½ρV² into static pressure rise." },
+      { topic: "Fluid Dynamics & Bernoulli", q: "In real pipe flow with friction, the Energy Grade Line (EGL) slopes:", opts: ["Downward in the direction of flow", "Upward indefinitely without energy input", "Vertically straight up", "Identically to zero"], ans: 0, exp: "Friction irreversibly dissipates mechanical energy, causing EGL to drop along the flow." },
+      { topic: "Fluid Dynamics & Bernoulli", q: "A Pitot-static tube measures local fluid velocity using:", opts: ["Difference between stagnation pressure and static pressure", "Fluid color changes", "Pipe wall thickness", "Ambient room temperature"], ans: 0, exp: "Dynamic pressure (P_stag − P_static) = ½ρV², allowing calculation of local velocity V." },
+      { topic: "Fluid Dynamics & Bernoulli", q: "Dynamic pressure in a moving fluid is given by:", opts: ["½ρV²", "ρgh", "μ(du/dy)", "A·V"], ans: 0, exp: "Dynamic pressure represents kinetic energy per unit volume: ½ρV²." },
+      { topic: "Fluid Dynamics & Bernoulli", q: "If a horizontal pipe diameter halves in steady incompressible flow, flow velocity:", opts: ["Quadruples (4×)", "Doubles (2×)", "Halves (0.5×)", "Remains unchanged"], ans: 0, exp: "Area A = πd²/4 scales with d²; halving d reduces area by 4×, increasing V by 4×." },
+
+      { topic: "Flow Meters", q: "Which flow meter typically has lower permanent head loss due to its gradual diverging cone?", opts: ["Sharp-edged orifice meter", "Venturi meter", "Pitot tube alone", "Capillary tube"], ans: 1, exp: "A Venturi meter's gradual diffuser recovers most pressure head, giving low permanent head loss." },
+      { topic: "Flow Meters", q: "In an orifice meter, the vena contracta is the location where the fluid jet:", opts: ["Reaches maximum cross-sectional area", "Contracts to minimum area and peak velocity", "Comes to complete rest", "Changes from liquid to gas"], ans: 1, exp: "Past the sharp orifice edge, the jet contracts to a minimum area at the vena contracta." },
+      { topic: "Flow Meters", q: "Why is the coefficient of discharge (C_d) of an orifice meter lower than that of a Venturi meter?", opts: ["Sharp edge causes flow separation and turbulent eddies with higher energy loss", "Orifice meters only work in gases", "Venturi meters ignore pressure difference", "Orifice plates have infinite throat length"], ans: 0, exp: "Abrupt contraction and expansion eddies in an orifice meter dissipate more energy." },
+      { topic: "Flow Meters", q: "A standard Venturi meter consists of:", opts: ["Converging cone, throat, and gradual diverging cone", "Only a flat plate with a hole", "Two intersecting thermometers", "A rotating paddle wheel only"], ans: 0, exp: "These three sections accelerate flow, tap minimum throat pressure, and recover pressure smoothly." },
+      { topic: "Flow Meters", q: "Between the inlet and the throat of a Venturi meter, fluid velocity:", opts: ["Increases while static pressure decreases", "Decreases while static pressure increases", "Stays constant", "Becomes zero"], ans: 0, exp: "Smaller throat area increases velocity and lowers static pressure, creating measurable ΔP." },
+      { topic: "Flow Meters", q: "Which statement compares initial cost of an orifice plate vs. a Venturi meter?", opts: ["Orifice plates are generally cheaper and more compact than Venturi meters", "Venturi meters are always cheaper and smaller", "Both cost identical amounts regardless of size", "Orifice meters cannot be installed in pipes"], ans: 0, exp: "An orifice plate is a simple machined plate, whereas a Venturi meter requires precision tapered sections." },
+      { topic: "Flow Meters", q: "A differential pressure device like a manometer connected to a Venturi meter measures:", opts: ["Pressure difference between inlet and throat", "Fluid color", "Pipe external paint thickness", "Ambient humidity"], ans: 0, exp: "The pressure drop across the constriction relates to volumetric flow rate Q." },
+      { topic: "Flow Meters", q: "Sharp-edged orifice plates can lose calibration accuracy over time due to:", opts: ["Wear, rounding, or fouling of the sharp orifice edge", "Changes in Earth's rotation", "Constant pipe diameter", "Zero fluid velocity"], ans: 0, exp: "The discharge coefficient depends on a clean, sharp edge and specified geometry." },
+      { topic: "Flow Meters", q: "In a Venturi meter, the diverging section is typically made longer and more gradual than the converging section to:", opts: ["Minimize boundary-layer separation and maximize pressure recovery", "Increase permanent head loss", "Block flow completely", "Create a vacuum at the inlet"], ans: 0, exp: "Decelerating flow is prone to separation; a gradual angle aids pressure recovery." },
+      { topic: "Flow Meters", q: "Actual discharge through a Venturi or orifice meter is related to theoretical discharge by:", opts: ["Q_actual = C_d · Q_theoretical", "Q_actual = Q_theoretical / C_d²", "Q_actual = ρ · g · C_d", "Q_actual = V² / C_d"], ans: 0, exp: "The discharge coefficient C_d accounts for real fluid effects and vena contracta contraction." },
+
+      { topic: "Fluid Power", q: "Fluid power systems transmit and control energy using pressurized fluid, commonly classified into:", opts: ["Hydraulics (liquid) and Pneumatics (gas/air)", "Thermodynamics and Statics", "Conduction and Radiation", "Optics and Acoustics"], ans: 0, exp: "Fluid power divides into hydraulic systems (pressurized liquids) and pneumatic systems (pressurized gas/air)." },
+      { topic: "Fluid Power", q: "In a hydraulic press based on Pascal's principle, pressure applied to a confined fluid is transmitted:", opts: ["Only to the bottom surface", "Equally and undiminished throughout the fluid", "Proportional to pipe length squared", "Only when fluid is stationary"], ans: 1, exp: "Pascal's law states that pressure change in an enclosed incompressible fluid transmits equally in all directions." },
+      { topic: "Fluid Power", q: "In a fluid power circuit, what is the main role of a hydraulic cylinder or motor?", opts: ["Actuator — converts fluid energy into mechanical work", "Reservoir — cools and stores fluid only", "Pressure relief valve — measures viscosity", "Filter — increases fluid density"], ans: 0, exp: "Actuators (linear cylinders or rotary motors) convert fluid power into mechanical force or torque." },
+      { topic: "Fluid Power", q: "Compared to pneumatic systems, hydraulic systems generally:", opts: ["Operate at higher pressures and deliver larger forces/torques", "Use compressible air at very low pressure only", "Cannot produce linear motion", "Never require fluid filtration"], ans: 0, exp: "Hydraulic liquids are nearly incompressible and support high pressures for heavy-duty loads." },
+      { topic: "Fluid Power", q: "In a hydraulic circuit, a pressure relief valve primarily protects the system against:", opts: ["Excessive pressure spikes / overload", "Low ambient room temperature", "Excessive fluid clarity", "Zero flow velocity"], ans: 0, exp: "Relief valves open to divert fluid back to the reservoir if pressure exceeds a safe set limit." },
+      { topic: "Fluid Power", q: "Directional control valves in a fluid power system are used to:", opts: ["Start, stop, and direct the path of pressurized fluid", "Measure specific gravity of water", "Calculate metacentric height", "Eliminate all pipe fittings"], ans: 0, exp: "Directional control valves route pressurized fluid to different ports/sides of an actuator." },
+      { topic: "Fluid Power", q: "A hydraulic pump in a fluid power circuit primarily converts:", opts: ["Mechanical energy into hydraulic (fluid) energy", "Electrical current into heat only", "Fluid pressure into atmospheric air", "Viscosity into density"], ans: 0, exp: "Pumps draw fluid from the reservoir and impart flow/pressure energy to the system." },
+      { topic: "Fluid Power", q: "In an ideal frictionless hydraulic jack with piston areas A₁ and A₂, force multiplication F₂/F₁ equals:", opts: ["A₂ / A₁", "A₁ / A₂", "ρ · g · A₁", "A₂² / A₁"], ans: 0, exp: "Since P = F₁/A₁ = F₂/A₂, F₂ = F₁(A₂/A₁)." },
+      { topic: "Fluid Power", q: "An accumulator in a hydraulic system is commonly used to:", opts: ["Store pressurized fluid energy, dampen pulsations, or supply peak flow", "Measure kinematic viscosity", "Convert AC voltage to DC", "Increase pipe wall roughness"], ans: 0, exp: "Accumulators store hydraulic energy under pressure and smooth out pressure spikes." },
+      { topic: "Fluid Power", q: "Why is filtration critical in hydraulic power systems?", opts: ["Contaminants wear precision valve spools/pumps and cause sticking or leakage", "Filters increase water density", "Filters replace the need for a pump", "Filters lower gravity"], ans: 0, exp: "Tight clearances in hydraulic pumps and valves are easily damaged by solid particles." }
+    ];
+
+    const essayQuestions = [
+      {
+        id: "ESS-1",
+        topic: "Viscosity",
+        marks: 10,
+        prompt: "State Newton's Law of Viscosity, define dynamic and kinematic viscosity with their SI units, and explain why temperature affects liquid and gas viscosities in opposite directions.",
+        keywords: ["newton", "shear", "gradient", "dynamic", "kinematic", "liquid", "gas", "temperature", "cohesion", "momentum"],
+        points: [
+          "State τ = μ (du/dy) and define shear stress and velocity gradient.",
+          "Give SI units: Pa·s (or N·s/m²) for dynamic viscosity μ, and m²/s for kinematic viscosity ν = μ/ρ.",
+          "Explain liquid viscosity decreases with heat due to weakening cohesive forces, while gas viscosity increases due to greater molecular collision/momentum transfer."
+        ]
+      },
+      {
+        id: "ESS-2",
+        topic: "Stability",
+        marks: 10,
+        prompt: "Define Center of Gravity (CG), Center of Buoyancy (CB), Metacenter (M), and Metacentric Height (GM). Explain the stability conditions (stable, unstable, neutral) for a floating body.",
+        keywords: ["center of gravity", "buoyancy", "metacenter", "metacentric height", "stable", "unstable", "neutral", "restoring", "overturning"],
+        points: [
+          "Define CG (weight acts), CB (centroid of displaced fluid volume), M (intersection of buoyant force line and centerline on small tilt), and GM (distance between CG and M).",
+          "Stable when M is above CG (GM > 0) creating a restoring righting couple.",
+          "Unstable when M is below CG (GM < 0) creating an overturning couple; neutral when M coincides with CG."
+        ]
+      },
+      {
+        id: "ESS-3",
+        topic: "Flow Meters",
+        marks: 10,
+        prompt: "Compare a Venturi meter and a sharp-edged orifice meter in terms of construction, vena contracta, head loss, discharge coefficient (Cd), and cost.",
+        keywords: ["venturi", "orifice", "vena contracta", "head loss", "discharge", "converging", "diverging", "cost"],
+        points: [
+          "Venturi has converging cone, throat, and gradual diverging cone; orifice is a sharp-edged plate constriction.",
+          "Orifice forms a distinct vena contracta downstream with stronger eddy losses and lower Cd.",
+          "Venturi recovers pressure gradually (lower permanent head loss) but costs more than an orifice plate."
+        ]
+      }
+    ];
+
+    const state = {
+      name: "",
+      email: "",
+      unlocked: false,
+      submitted: false,
+      answers: {},
+      essayAnswers: {},
+      secondsLeft: 2 * 60 * 60,
+      timerId: null
+    };
+
+    function loginStudent() {
+      const nameInput = document.getElementById("studentName");
+      const emailInput = document.getElementById("studentEmail");
+      const errorEl = document.getElementById("loginError");
+
+      const name = (nameInput.value || "").trim();
+      const email = (emailInput.value || "").trim();
+
+      if (!name || !email || !email.includes("@")) {
+        errorEl.style.display = "block";
+        return;
+      }
+
+      errorEl.style.display = "none";
+      state.name = name;
+      state.email = email;
+
+      document.getElementById("dispName").textContent = state.name;
+      document.getElementById("dispEmail").textContent = state.email;
+      document.getElementById("loginGate").style.display = "none";
+      document.getElementById("examPortal").style.display = "block";
+
+      startTimer();
+      renderAll();
+    }
+
+    function startTimer() {
+      if (state.timerId) clearInterval(state.timerId);
+      const timerEl = document.getElementById("timer");
+
+      function updateDisplay() {
+        const hrs = String(Math.floor(state.secondsLeft / 3600)).padStart(2, "0");
+        const mins = String(Math.floor((state.secondsLeft % 3600) / 60)).padStart(2, "0");
+        const secs = String(state.secondsLeft % 60).padStart(2, "0");
+        timerEl.textContent = `${hrs}:${mins}:${secs}`;
+      }
+
+      updateDisplay();
+      state.timerId = setInterval(() => {
+        if (state.secondsLeft > 0 && !state.submitted) {
+          state.secondsLeft -= 1;
+          updateDisplay();
+          if (state.secondsLeft === 0) {
+            submitExam();
+          }
+        }
+      }, 1000);
+    }
+
+    function getAnsweredCount() {
+      return Object.keys(state.answers).length;
+    }
+
+    function renderAll() {
+      const selectedTopic = document.getElementById("topicFilter").value;
+      const objContainer = document.getElementById("objectiveContainer");
+      const paywallCard = document.getElementById("paywallCard");
+      const essayHeader = document.getElementById("essayHeaderDivider");
+      const essayContainer = document.getElementById("essayContainer");
+      const submitRow = document.getElementById("finalSubmitRow");
+
+      const answeredCount = getAnsweredCount();
+      const hitFreeLimit = !state.unlocked && answeredCount >= FREE_CBT_LIMIT;
+
+      document.getElementById("cbtCounter").textContent = state.unlocked
+        ? `Objective Answered: ${answeredCount} / 60 (Full Access Unlocked)`
+        : `Objective Answered: ${answeredCount} / ${FREE_CBT_LIMIT} Free (Bank: 60)`;
+
+      document.getElementById("unlockStatus").textContent = state.unlocked
+        ? "Status: Unlocked — All 60 Objective Questions & Essay Questions Available"
+        : "Free Quota: 10 Objective Questions | Questions 11–60 & Essays: Locked (₦100 per practice session)";
+
+      objContainer.innerHTML = "";
+
+      coreObjectiveQuestions.forEach((item, idx) => {
+        if (selectedTopic !== "ALL" && item.topic !== selectedTopic) return;
+
+        const isLockedByQuota = !state.unlocked && idx >= FREE_CBT_LIMIT && !state.answers.hasOwnProperty(idx);
+        if (isLockedByQuota) return;
+
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const meta = document.createElement("div");
+        meta.className = "meta-row";
+        meta.innerHTML = `<span>Question ${idx + 1} • ${item.topic}</span><span class="badge-marks">1 Mark</span>`;
+        card.appendChild(meta);
+
+        const qText = document.createElement("p");
+        qText.style.fontWeight = "600";
+        qText.style.marginBottom = "8px";
+        qText.textContent = item.q;
+        card.appendChild(qText);
+
+        item.opts.forEach((opt, optIdx) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "option-btn";
+          btn.textContent = `${String.fromCharCode(65 + optIdx)}. ${opt}`;
+
+          if (state.answers[idx] === optIdx) {
+            btn.classList.add("selected");
+          }
+
+          if (state.submitted) {
+            btn.disabled = true;
+            if (optIdx === item.ans) btn.classList.add("correct");
+            else if (state.answers[idx] === optIdx) btn.classList.add("wrong");
+          } else if (hitFreeLimit && !state.answers.hasOwnProperty(idx)) {
+            btn.disabled = true;
+          }
+
+          btn.addEventListener("click", () => {
+            if (state.submitted) return;
+            const alreadyAnswered = state.answers.hasOwnProperty(idx);
+            if (!state.unlocked && !alreadyAnswered && getAnsweredCount() >= FREE_CBT_LIMIT) {
+              paywallCard.style.display = "block";
+              paywallCard.scrollIntoView({ behavior: "smooth" });
+              return;
+            }
+            state.answers[idx] = optIdx;
+            renderAll();
+          });
+
+          card.appendChild(btn);
+        });
+
+        if (state.submitted) {
+          const fb = document.createElement("div");
+          fb.className = "feedback-box";
+          fb.style.display = "block";
+          const correctLetter = String.fromCharCode(65 + item.ans);
+          fb.innerHTML = `<strong>Correct Answer: ${correctLetter}</strong><br/>${item.exp}`;
+          card.appendChild(fb);
+        }
+
+        objContainer.appendChild(card);
+      });
+
+      if (!state.unlocked && answeredCount >= FREE_CBT_LIMIT) {
+        paywallCard.style.display = "block";
+        essayHeader.style.display = "none";
+        essayContainer.innerHTML = "";
+        submitRow.style.display = "none";
+      } else {
+        paywallCard.style.display = "none";
+        essayHeader.style.display = "block";
+        submitRow.style.display = "flex";
+        renderEssays(selectedTopic);
+      }
+    }
+
+    function renderEssays(selectedTopic) {
+      const essayContainer = document.getElementById("essayContainer");
+      essayContainer.innerHTML = "";
+
+      essayQuestions.forEach((ess) => {
+        if (selectedTopic !== "ALL" && ess.topic !== selectedTopic) return;
+
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const meta = document.createElement("div");
+        meta.className = "meta-row";
+        meta.innerHTML = `<span>${ess.id} • ${ess.topic}</span><span class="badge-marks">${ess.marks} Marks</span>`;
+        card.appendChild(meta);
+
+        const prompt = document.createElement("p");
+        prompt.style.fontWeight = "600";
+        prompt.textContent = ess.prompt;
+        card.appendChild(prompt);
+
+        const ta = document.createElement("textarea");
+        ta.placeholder = "Type your detailed engineering explanation here...";
+        ta.value = state.essayAnswers[ess.id] || "";
+        ta.disabled = state.submitted;
+        ta.addEventListener("input", (e) => {
+          state.essayAnswers[ess.id] = e.target.value;
+        });
+        card.appendChild(ta);
+
+        if (state.submitted) {
+          const scheme = document.createElement("div");
+          scheme.className = "marking-scheme";
+          scheme.style.display = "block";
+          const score = scoreEssay(ess, state.essayAnswers[ess.id] || "");
+          scheme.innerHTML = `
+            <h4>Marking Guide & Rubric Score: ${score} / ${ess.marks}</h4>
+            <ul>${ess.points.map((p) => `<li>${p}</li>`).join("")}</ul>
+          `;
+          card.appendChild(scheme);
+        }
+
+        essayContainer.appendChild(card);
+      });
+    }
+
+    function scoreEssay(ess, text) {
+      const cleaned = (text || "").toLowerCase();
+      if (!cleaned.trim()) return 0;
+      let matched = 0;
+      ess.keywords.forEach((kw) => {
+        if (cleaned.includes(kw)) matched += 1;
+      });
+      const ratio = Math.min(1, matched / Math.max(3, Math.ceil(ess.keywords.length * 0.5)));
+      const lengthBonus = cleaned.trim().length > 120 ? 0.15 : 0;
+      return Math.min(ess.marks, Math.round(ess.marks * Math.min(1, ratio + lengthBonus)));
+    }
+
+    function payWithPaystack() {
+      if (typeof PaystackPop === "undefined") {
+        alert("Paystack script is still loading or blocked. Please check your connection and try again.");
+        return;
+      }
+
+      const handler = PaystackPop.setup({
+        key: PAYSTACK_CONFIG.publicKey,
+        email: state.email,
+        amount: PAYSTACK_CONFIG.amountNaira * 100,
+        currency: "NGN",
+        ref: "GET205-" + Date.now() + "-" + Math.floor(Math.random() * 10000),
+        metadata: {
+          custom_fields: [
+            { display_name: "Candidate Name", variable_name: "candidate_name", value: state.name },
+            { display_name: "Course", variable_name: "course", value: "ABUAD GET205" }
+          ]
+        },
+        callback: function () {
+          state.unlocked = true;
+          renderAll();
+          alert("Payment confirmed! All 60 objective questions and essay questions are now unlocked.");
+        },
+        onClose: function () {
+          alert("Payment window closed before completion.");
+        }
+      });
+
+      handler.openIframe();
+    }
+
+    function submitExam() {
+      state.submitted = true;
+      if (state.timerId) clearInterval(state.timerId);
+
+      let objScore = 0;
+      coreObjectiveQuestions.forEach((item, idx) => {
+        if (state.answers[idx] === item.ans) objScore += 1;
+      });
+
+      let essayScore = 0;
+      let maxEssayScore = 0;
+      essayQuestions.forEach((ess) => {
+        maxEssayScore += ess.marks;
+        essayScore += scoreEssay(ess, state.essayAnswers[ess.id] || "");
+      });
+
+      const totalScore = objScore + essayScore;
+      const maxTotal = coreObjectiveQuestions.length + maxEssayScore;
+      const pct = ((totalScore / maxTotal) * 100).toFixed(1);
+
+      const dashboard = document.getElementById("resultDashboard");
+      dashboard.style.display = "block";
+      document.getElementById("totalSummaryText").textContent =
+        `Objective: ${objScore}/${coreObjectiveQuestions.length} • Essays: ${essayScore}/${maxEssayScore} • Total: ${totalScore}/${maxTotal} (${pct}%)`;
+      document.getElementById("summaryRemarkText").textContent =
+        pct >= 70
+          ? "Strong mastery of GET205 Fluid Mechanics concepts."
+          : pct >= 50
+            ? "Fair pass — review Bernoulli's equation, stability criteria, and flow meter losses."
+            : "Keep practicing — revisit fluid properties, viscosity laws, and hydraulic circuits.";
+
+      renderAll();
+      dashboard.scrollIntoView({ behavior: "smooth" });
+    }
+
+    document.getElementById("startExamBtn").addEventListener("click", loginStudent);
+    document.getElementById("topicFilter").addEventListener("change", renderAll);
+    document.getElementById("paystackBtn").addEventListener("click", payWithPaystack);
+    document.getElementById("finalSubmitBtn").addEventListener("click", submitExam);
+  </script>
+</body>
+</html>
